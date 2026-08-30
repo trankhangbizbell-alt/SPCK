@@ -1,12 +1,12 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAa2rJ1IfNRNS0U3BjrGR35yhJqWJNuGY0",
-  authDomain: "coffee-management-68648.firebaseapp.com",
-  projectId: "coffee-management-68648",
-  storageBucket: "coffee-management-68648.firebasestorage.app",
-  messagingSenderId: "989797262072",
-  appId: "1:989797262072:web:5502af3d91976b3575510d",
-  measurementId: "G-8MN5TN28N9"
+  apiKey: "AIzaSyBuzf07XzJeDPNQ3J3ujd6aDISsl8Ewp9o",
+  authDomain: "news-fbabd.firebaseapp.com",
+  projectId: "news-fbabd",
+  storageBucket: "news-fbabd.firebasestorage.app",
+  messagingSenderId: "629916229666",
+  appId: "1:629916229666:web:168bb21e4e5ec752c32a7b",
+  measurementId: "G-NW8N33K49Z"
 };
 var db;
 if(!firebase.apps.length) {

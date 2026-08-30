@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link
+      rel="stylesheet"
+      href="/TK_JSA14_SPCK_TrầnKhang/css/style.css"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+
+     <!-- Firebase -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-app-compat.min.js"
+        integrity="sha512-gCJuoyvPlJMaTPkYPfyfEt1KYPvoEE9PgGHlOU+Qtg+kLbBfEbiiim4PDj2ATWLc6BN0irZnNbdgzCtX53vjXQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-firestore-compat.min.js"
+        integrity="sha512-Xxpv+NpwNyir+77oEME5XeixRoRLrI4eY0bBZSMHgWLEFbc0f+JP4Nax3t/qDuYg1hgWrSl8pUapb+AO5Lp1jA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-storage-compat.min.js"
+        integrity="sha512-l/ieVoEShBQI9lKOdMY4AAV9rzEE5YHKF8XB4m3Qn3DtK9AhYSOgyDWrL2XH1lhKS4Fde+PNoDiBoT7UhcP23A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    <!-- Firebase Authentication -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-auth-compat.min.js" integrity="sha512-PgwIBKz/MWPvQvKq7MUWB5x5aCyiiXTnAtbUGqbBvylcD/oASXh8wap5g1lWpzPmNraLXWzuWx8bkZ+reKYoyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- Firebase configuration script -->
+    <script src="./FrontEnd/firebase-config.js"></script>
+  </head>
+
+  <br />
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Báo Mới</a>
+          <button
+            class="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="./categories.html?caterogy=business">Kinh doanh</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="./categories.html?caterogy=education">Giáo dục</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="./categories.html?caterogy=technology">Công nghệ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="./categories.html?caterogy=entertainment">Giải trí</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="./categories.html?caterogy=other">Khác</a>
+              </li>
+            </ul>
+            
+            <div class="d-flex" id="user-infor">
+              <a class="btn btn-success me-2" href="./login.html">
+                Login
+              </a>
+            </div>
+            <form class="d-flex">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-secondary" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div
+      id="carouselExampleControls"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="img/image.1.png" class="d-block w-100" alt="hinh anh" />
+        </div>
+        <div class="carousel-item">
+          <img src="img/image.2.png" class="d-block w-100" alt="hinh anh" />
+        </div>
+        <div class="carousel-item">
+          <img src="img/image.3.png" class="d-block w-100" alt="hinh anh" />
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleControls"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleControls"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <br />
+    <div class="container">
+      <h1>TIN TỨC NỔI BẬT</h1>
+      <div class="row d-flex justify-content-evenly" id="top-news">
+        
+      </div>
+      <div class="d-flex justify-content-center mb-5">
+        <button class="btn btn-primary" id="btn-load">Tải thêm</button>
+      </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Báo Mới</a>
+        <button
+          class="navbar-toggler"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#"></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link active"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                aria-expanded="false"
+              >
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#" tabindex="-1"></a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <p class="type.lowercase">
+      vietlottar-senal-kết quả bóng đá-xổ số miền trung-tin tứcXIV-huy chương
+      đồng-an toàn giao thông-Thái Lan-bóng đá Việt Nam-giao thông báo bóng
+      đá-Karate dop háp luật-Phạm Minh Chính-lịch c1-Đoàn Thể thao Việt Nam-năm
+      tử vi 12 con giáp-lịch âm-Campuchia-Liên bang Nga-bảng xếp hạng ngoại hạng
+      anh-Xổ số hôm nay-chelsea-tin bão-bóng đá-giá vàng-thể thao-Nguyễn Thị
+      Oanh-Trump-vleague-bảng giá chứng khoán-real madrid-SEA Games-giá cà
+      phê-Ngoại hạng anh-vận động viên-tin thế giới-lịch thi đấu bóng đá-huy
+      chương vàng-Tổng thống Mỹ-muman city-tử vi 12 cung hoàng đạo-Miss Charm
+      2025-Ukraine-sea games 33-lịch thi đấu ngoại hạng Anh-Huy chương Bạc-Tai
+      nạn giao thông-Champions League-chỉ Số VN-INDEXbarcelonaU22 VNxổ số miền
+      nam-onald Trumpxổ số miền bắc-liverpool-Zalo Business-AccountZalo Cloud
+    </p>
+    <p>
+      tải ứng dụng:
+    </p>
+    <a class="btn btn-primary" href="Báo Mới - Tin mới 24h - Ứng dụng trên Google Play" role="button">Ứng dụng Báo Mới</a>
+    <p>
+      liên hệ qua số hotline: 
+    </p>
+  </body>
+  <script src="./script/index.js"></script>
+</html>
