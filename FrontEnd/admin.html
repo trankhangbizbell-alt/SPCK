@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWS Admin</title>
+
+     <!-- Firebase -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-app-compat.min.js"
+        integrity="sha512-gCJuoyvPlJMaTPkYPfyfEt1KYPvoEE9PgGHlOU+Qtg+kLbBfEbiiim4PDj2ATWLc6BN0irZnNbdgzCtX53vjXQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-firestore-compat.min.js"
+        integrity="sha512-Xxpv+NpwNyir+77oEME5XeixRoRLrI4eY0bBZSMHgWLEFbc0f+JP4Nax3t/qDuYg1hgWrSl8pUapb+AO5Lp1jA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-storage-compat.min.js"
+        integrity="sha512-l/ieVoEShBQI9lKOdMY4AAV9rzEE5YHKF8XB4m3Qn3DtK9AhYSOgyDWrL2XH1lhKS4Fde+PNoDiBoT7UhcP23A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    <!-- Firebase Authentication -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-auth-compat.min.js" integrity="sha512-PgwIBKz/MWPvQvKq7MUWB5x5aCyiiXTnAtbUGqbBvylcD/oASXh8wap5g1lWpzPmNraLXWzuWx8bkZ+reKYoyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- Firebase configuration script -->
+    <script src="/FrontEnd/firebase-config.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/FrontEnd/admin.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>NEWS ADMIN</h2>
+
+        <a href="#">Dashboard</a>
+        <a href="#">Bài viết</a>
+        <a href="#">Danh mục</a>
+        <a href="#">Người dùng</a>
+        <a href="#">Thống kê</a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h2>Dashboard</h2>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <h1>Tổng quan</h1>
+
+            <p>
+                Chào mừng bạn đến trang quản trị NEWS.
+            </p>
+
+
+            <!-- CARDS -->
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <h3>Bài viết</h3>
+
+                    <h2>120</h2>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>Danh mục</h3>
+
+                    <h2>10</h2>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>Người dùng</h3>
+
+                    <h2>350</h2>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>Lượt xem</h3>
+
+                    <h2>25,430</h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- BÀI VIẾT -->
+
+            <div class="table-box">
+
+                <h2>
+                    Quản lý bài viết
+                </h2>
+
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="Tìm bài viết..."
+                >
+
+                <button>
+                    + Thêm bài viết
+                </button>
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Tiêu đề
+                            </th>
+
+                            <th>
+                                Tác giả
+                            </th>
+
+                            <th>
+                                Lượt xem
+                            </th>
+
+                            <th>
+                                Trạng thái
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="articles">
+
+                        <tr>
+
+                            <td>
+                                Tin tức hôm nay
+                            </td>
+
+                            <td>
+                                Nguyễn Văn A
+                            </td>
+
+                            <td>
+                                5,200
+                            </td>
+
+                            <td class="published">
+                                Đã đăng
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Công nghệ mới nhất
+                            </td>
+
+                            <td>
+                                Trần Văn B
+                            </td>
+
+                            <td>
+                                3,500
+                            </td>
+
+                            <td class="published">
+                                Đã đăng
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Tin thể thao
+                            </td>
+
+                            <td>
+                                Lê Văn C
+                            </td>
+
+                            <td>
+                                1,200
+                            </td>
+
+                            <td class="draft">
+                                Bản nháp
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- DANH MỤC -->
+
+            <div class="table-box">
+
+                <h2>
+                    Quản lý danh mục
+                </h2>
+
+                <table>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên danh mục</th>
+                        <th>Số bài viết</th>
+                    </tr>
+
+                    <tr>
+                        <td>1</td>
+                        <td>Thời sự</td>
+                        <td>30</td>
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <td>Công nghệ</td>
+                        <td>25</td>
+                    </tr>
+
+                    <tr>
+                        <td>3</td>
+                        <td>Thể thao</td>
+                        <td>20</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- NGƯỜI DÙNG -->
+
+            <div class="table-box">
+
+                <h2>
+                    Quản lý người dùng
+                </h2>
+
+                <table>
+
+                    <tr>
+                        <th>Tên</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                    </tr>
+
+                    <tr>
+                        <td>Nguyễn Văn A</td>
+                        <td>nguyenvana@gmail.com</td>
+                        <td>Admin</td>
+                    </tr>
+
+                    <tr>
+                        <td>Trần Văn B</td>
+                        <td>tranvanb@gmail.com</td>
+                        <td>Editor</td>
+                    </tr>
+
+                    <tr>
+                        <td>Lê Văn C</td>
+                        <td>levanc@gmail.com</td>
+                        <td>User</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- THỐNG KÊ -->
+
+            <div class="table-box">
+
+                <h2>
+                    Thống kê lượt xem
+                </h2>
+
+                <p>
+                    Lượt xem trong 7 ngày gần nhất
+                </p>
+
+
+                <div class="chart">
+
+                    <div
+                        class="bar"
+                        style="height: 80px"
+                    ></div>
+
+                    <div
+                        class="bar"
+                        style="height: 110px"
+                    ></div>
+
+                    <div
+                        class="bar"
+                        style="height: 90px"
+                    ></div>
+
+                    <div
+                        class="bar"
+                        style="height: 140px"
+                    ></div>
+
+                    <div
+                        class="bar"
+                        style="height: 120px"
+                    ></div>
+
+                    <div
+                        class="bar"
+                        style="height: 170px"
+                    ></div>
+
+                    <div
+                        class="bar"
+                        style="height: 190px"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const search =
+            document.getElementById("search");
+
+        const articles =
+            document.getElementById("articles");
+
+
+        search.addEventListener(
+            "keyup",
+            function() {
+
+                const keyword =
+                    search.value.toLowerCase();
+
+
+                const rows =
+                    articles.querySelectorAll("tr");
+
+
+                rows.forEach(function(row) {
+
+                    const text =
+                        row.innerText.toLowerCase();
+
+
+                    if (
+                        text.includes(keyword)
+                    ) {
+
+                        row.style.display = "";
+
+                    } else {
+
+                        row.style.display = "none";
+
+                    }
+
+                });
+
+            }
+        );
+
+    </script>
+
+</body>
+<script src="/FrontEnd/admin.js"></script>
+</html>
