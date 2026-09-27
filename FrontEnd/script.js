@@ -1,66 +1,103 @@
-var url = "https://newsdata.io/api/1/latest?apikey=pub_4a96eb26e93c4500a650c327765eda16&language=vi"
-var nextPage = ""
+var PAGE_SIZE = 9; // Số bài viết tải mỗi lần
+var lastDoc = null; // Bài viết cuối của lần tải trước, dùng để tải thêm
 
-window.onload = async function() {
-    var userLoggedIn = localStorage.getItem("userLoggedIn");
-    if(userLoggedIn != null) {
-      userLoggedIn = JSON.parse(userLoggedIn);
-      document.getElementById("user-infor").innerHTML = `
-          <div class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle text-white"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                ${userLoggedIn.username}
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#" id="btn-logout">Đăng xuất</a></li>
-              </ul>
-            </div>
-      `;
-    }
+window.onload = function () {
+  showUserNav(); // Hiện nút đăng nhập / tên người dùng
+  loadPosts();
+};
 
-    topNewUrl = url + "&size=9";
-    await CallApi(topNewUrl);
-}
+// ====== LẤY BÀI VIẾT TỪ FIRESTORE ======
+function loadPosts() {
+  var query = db.collection("posts").orderBy("createdAt", "desc").limit(PAGE_SIZE);
 
-document.addEventListener("click", async function(e) {
-    if(e.target && e.target.id === "btn-logout") {
-        localStorage.removeItem("userLoggedIn");
-        alert("You have been logged out. Redirecting to homepage...");
-        window.location.href = "./FrontEnd/signin.html";
-    }
+  // Nếu đã tải trước đó thì lấy tiếp từ bài cuối cùng
+  if (lastDoc != null) {
+    query = query.startAfter(lastDoc);
+  }
 
-    if(e.target && e.target.id === "btn-load") {
-      topNewUrl = url + "&size=9" + nextPage;
-      await CallApi(topNewUrl);
-    }
-})
+  query
+    .get()
+    .then(function (querySnapshot) {
+      if (querySnapshot.empty) {
+        document.getElementById("btn-load").style.display = "none";
 
-async function CallApi(url) {
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      var newsHtml = "";
-      for(var i = 0; i < data.results.length; i++) {
-        newsHtml += `
-          <div class="card col-lg-3 col-md-4 col-sm-12 m-2">
-          <img src="${data.results[i].image_url}" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <p class="card-text">
-              ${data.results[i].title}
-            </p>
-            <a class="btn btn-primary" href="./details/detail.html">Chi tiết</a>
-          </div>
-        </div>
-        `;
+        if (lastDoc == null) {
+          document.getElementById("top-news").innerHTML =
+            "<p>Chưa có bài viết nào. Hãy đăng nhập và vào trang quản trị để đăng bài.</p>";
+        }
+        return;
       }
-      document.getElementById("top-news").innerHTML +=  newsHtml;  
-      nextPage = "&page="+data.nextPage;
-    })
 
+      var newsHtml = "";
+
+      querySnapshot.forEach(function (doc) {
+        var post = doc.data();
+        post.id = doc.id;
+
+        // Chỉ hiện bài đã đăng, bỏ qua bản nháp
+        if (post.status === "published") {
+          newsHtml += createPostCard(post);
+        }
+      });
+
+      document.getElementById("top-news").innerHTML += newsHtml;
+
+      // Ghi nhớ bài cuối cùng để lần sau tải tiếp
+      lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+      // Hết bài thì ẩn nút tải thêm
+      if (querySnapshot.size < PAGE_SIZE) {
+        document.getElementById("btn-load").style.display = "none";
+      }
+    })
+    .catch(function (error) {
+      console.error("Lỗi tải bài viết:", error);
+      document.getElementById("top-news").innerHTML = "<p>Không tải được bài viết.</p>";
+    });
 }
+
+// ====== NÚT TẢI THÊM ======
+document.addEventListener("click", function (e) {
+  if (e.target && e.target.id === "btn-load") {
+    loadPosts();
+  }
+});
+
+// ====== TÌM KIẾM BÀI VIẾT THEO TIÊU ĐỀ ======
+document.getElementById("form-search").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  var keyword = document.getElementById("txt-search").value.trim().toLowerCase();
+
+  // Bỏ trống ô tìm kiếm thì tải lại danh sách ban đầu
+  if (keyword === "") {
+    lastDoc = null;
+    document.getElementById("top-news").innerHTML = "";
+    document.getElementById("btn-load").style.display = "inline-block";
+    loadPosts();
+    return;
+  }
+
+  db.collection("posts")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then(function (querySnapshot) {
+      var newsHtml = "";
+
+      querySnapshot.forEach(function (doc) {
+        var post = doc.data();
+        post.id = doc.id;
+
+        if (post.status === "published" && post.title.toLowerCase().includes(keyword)) {
+          newsHtml += createPostCard(post);
+        }
+      });
+
+      if (newsHtml === "") {
+        newsHtml = "<p>Không tìm thấy bài viết nào.</p>";
+      }
+
+      document.getElementById("top-news").innerHTML = newsHtml;
+      document.getElementById("btn-load").style.display = "none";
+    });
+});

@@ -206,3 +206,70 @@
                 font-size: 13px;
             }
         }
+/* ====== FORM ĐĂNG BÀI ====== */
+.header p {
+    color: #777;
+    margin-top: 5px;
+}
+
+.table-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table-box input[type="text"],
+.table-box select,
+.table-box textarea {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.table-box input[type="file"] {
+    width: auto;
+}
+
+#search {
+    max-width: 300px;
+}
+
+.preview {
+    max-width: 250px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.form-actions {
+    margin-top: 10px;
+}
+
+/* Nút nhỏ trong bảng */
+.btn-small {
+    padding: 5px 10px;
+    font-size: 13px;
+    margin-right: 5px;
+}
+
+.btn-red {
+    background: #e74c3c;
+}
+
+.btn-red:hover {
+    background: #c0392b;
+}
+
+.btn-grey {
+    background: #888;
+}
+
+.btn-grey:hover {
+    background: #666;
+}

@@ -1,387 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEWS Admin</title>
+    <title>Quản trị - Báo Mới</title>
 
-     <!-- Firebase -->
+    <link rel="stylesheet" href="./admin.css">
+
+    <!-- Firebase -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-app-compat.min.js"
-        integrity="sha512-gCJuoyvPlJMaTPkYPfyfEt1KYPvoEE9PgGHlOU+Qtg+kLbBfEbiiim4PDj2ATWLc6BN0irZnNbdgzCtX53vjXQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-firestore-compat.min.js"
-        integrity="sha512-Xxpv+NpwNyir+77oEME5XeixRoRLrI4eY0bBZSMHgWLEFbc0f+JP4Nax3t/qDuYg1hgWrSl8pUapb+AO5Lp1jA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-storage-compat.min.js"
-        integrity="sha512-l/ieVoEShBQI9lKOdMY4AAV9rzEE5YHKF8XB4m3Qn3DtK9AhYSOgyDWrL2XH1lhKS4Fde+PNoDiBoT7UhcP23A=="
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-auth-compat.min.js"
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
-    <!-- Firebase Authentication -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-auth-compat.min.js" integrity="sha512-PgwIBKz/MWPvQvKq7MUWB5x5aCyiiXTnAtbUGqbBvylcD/oASXh8wap5g1lWpzPmNraLXWzuWx8bkZ+reKYoyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <!-- Firebase configuration script -->
-    <script src="/FrontEnd/firebase-config.js"></script>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="/FrontEnd/admin.css">
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
-        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-        crossorigin="anonymous"></script>
+    <script src="./firebase-config.js"></script>
 </head>
 
 <body>
 
     <!-- SIDEBAR -->
-
     <div class="sidebar">
-
         <h2>NEWS ADMIN</h2>
-
-        <a href="#">Dashboard</a>
-        <a href="#">Bài viết</a>
-        <a href="#">Danh mục</a>
-        <a href="#">Người dùng</a>
-        <a href="#">Thống kê</a>
-        <a href="/FrontEnd/index.html">Trang chủ</a>
-
+        <a href="#form-box">Đăng bài viết</a>
+        <a href="#list-box">Danh sách bài viết</a>
+        <a href="./index.html">Trang chủ</a>
+        <a href="#" id="btn-logout">Đăng xuất</a>
     </div>
 
-
     <!-- MAIN -->
-
     <div class="main">
 
-        <!-- HEADER -->
-
         <div class="header">
-
-            <h2>Dashboard</h2>
-
+            <h2>Trang quản trị</h2>
+            <p id="current-user">Đang kiểm tra đăng nhập...</p>
         </div>
-
-
-        <!-- CONTENT -->
 
         <div class="content">
 
-            <h1>Tổng quan</h1>
-
-            <p>
-                Chào mừng bạn đến trang quản trị NEWS.
-            </p>
-
-
-            <!-- CARDS -->
-
-            <div class="cards">
-
-                <div class="card">
-
-                    <h3>Bài viết</h3>
-
-                    <h2>0</h2>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Danh mục</h3>
-
-                    <h2>0</h2>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Người dùng</h3>
-
-                    <h2>0</h2>
-
-                </div>
-
-
-                <div class="card">
-
-                    <h3>Lượt xem</h3>
-
-                    <h2>0</h2>
-
-                </div>
-
-            </div>
-
-
-            <!-- BÀI VIẾT -->
-
-            <div class="table-box">
-
-                <h2>
-                    Quản lý bài viết
-                </h2>
-
-                <input
-                    type="text"
-                    id="search"
-                    placeholder="Tìm bài viết..."
-                >
-
-                <button>
-                    + Thêm bài viết
-                </button>
-
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Tiêu đề
-                            </th>
-
-                            <th>
-                                Tác giả
-                            </th>
-
-                            <th>
-                                Lượt xem
-                            </th>
-
-                            <th>
-                                Trạng thái
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="articles">
-
-                        <tr>
-
-                            <td>
-                                Tin tức hôm nay
-                            </td>
-
-                            <td>
-                                Nguyễn Văn A
-                            </td>
-
-                            <td>
-                                5,200
-                            </td>
-
-                            <td class="published">
-                                Đã đăng
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Công nghệ mới nhất
-                            </td>
-
-                            <td>
-                                Trần Văn B
-                            </td>
-
-                            <td>
-                                3,500
-                            </td>
-
-                            <td class="published">
-                                Đã đăng
-                            </td>
-
-                        </tr>
-
-
-                        <tr>
-
-                            <td>
-                                Tin thể thao
-                            </td>
-
-                            <td>
-                                Lê Văn C
-                            </td>
-
-                            <td>
-                                1,200
-                            </td>
-
-                            <td class="draft">
-                                Bản nháp
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <br>
-
-
-            <!-- DANH MỤC -->
-
-            <div class="table-box">
-
-                <h2>
-                    Quản lý danh mục
-                </h2>
-
-                <table>
-
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên danh mục</th>
-                        <th>Số bài viết</th>
-                    </tr>
-
-                    <tr>
-                        <td>1</td>
-                        <td>Thời sự</td>
-                        <td>30</td>
-                    </tr>
-
-                    <tr>
-                        <td>2</td>
-                        <td>Công nghệ</td>
-                        <td>25</td>
-                    </tr>
-
-                    <tr>
-                        <td>3</td>
-                        <td>Thể thao</td>
-                        <td>20</td>
-                    </tr>
-
-                </table>
-
-            </div>
-
-
-            <br>
-
-
-            <!-- NGƯỜI DÙNG -->
-
-            <div class="table-box">
-
-                <h2>
-                    Quản lý người dùng
-                </h2>
-
-                <table>
-
-                    <tr>
-                        <th>Tên</th>
-                        <th>Email</th>
-                        <th>Vai trò</th>
-                    </tr>
-
-                    <tr>
-                        <td>Nguyễn Văn A</td>
-                        <td>nguyenvana@gmail.com</td>
-                        <td>Admin</td>
-                    </tr>
-
-                    <tr>
-                        <td>Trần Văn B</td>
-                        <td>tranvanb@gmail.com</td>
-                        <td>Editor</td>
-                    </tr>
-
-                    <tr>
-                        <td>Lê Văn C</td>
-                        <td>levanc@gmail.com</td>
-                        <td>User</td>
-                    </tr>
-
-                </table>
-
-            </div>
-
-
-            <br>
-
-
             <!-- THỐNG KÊ -->
+            <div class="cards">
+                <div class="card">
+                    <h3>Tổng bài viết</h3>
+                    <h2 id="total-posts">0</h2>
+                </div>
+                <div class="card">
+                    <h3>Tổng lượt xem</h3>
+                    <h2 id="total-views">0</h2>
+                </div>
+                <div class="card">
+                    <h3>Đã đăng</h3>
+                    <h2 id="published-posts">0</h2>
+                </div>
+                <div class="card">
+                    <h3>Bản nháp</h3>
+                    <h2 id="draft-posts">0</h2>
+                </div>
+            </div>
 
-            <div class="table-box">
+            <!-- FORM ĐĂNG BÀI -->
+            <div class="table-box" id="form-box">
+                <h2 id="form-title">Đăng bài viết mới</h2>
 
-                <h2>
-                    Thống kê lượt xem
-                </h2>
+                <label>Tiêu đề</label>
+                <input type="text" id="txt-title" placeholder="Nhập tiêu đề bài viết">
 
-                <p>
-                    Lượt xem trong 7 ngày gần nhất
-                </p>
+                <label>Danh mục</label>
+                <select id="sl-category">
+                    <option value="business">Kinh doanh</option>
+                    <option value="education">Giáo dục</option>
+                    <option value="technology">Công nghệ</option>
+                    <option value="entertainment">Giải trí</option>
+                    <option value="other">Khác</option>
+                </select>
 
-
-                <div class="chart">
-
-                    <div
-                        class="bar"
-                        style="height: 80px"
-                    ></div>
-
-                    <div
-                        class="bar"
-                        style="height: 110px"
-                    ></div>
-
-                    <div
-                        class="bar"
-                        style="height: 90px"
-                    ></div>
-
-                    <div
-                        class="bar"
-                        style="height: 140px"
-                    ></div>
-
-                    <div
-                        class="bar"
-                        style="height: 120px"
-                    ></div>
-
-                    <div
-                        class="bar"
-                        style="height: 170px"
-                    ></div>
-
-                    <div
-                        class="bar"
-                        style="height: 190px"
-                    ></div>
-
+                <label>Ảnh bài viết</label>
+                <input type="file" id="file-image" accept="image/*">
+                <div>
+                    <img id="img-preview" class="preview" src="" alt="Ảnh xem trước" style="display: none;">
                 </div>
 
+                <label>Mô tả ngắn</label>
+                <textarea id="txt-description" rows="2" placeholder="Mô tả ngắn hiển thị ngoài trang chủ"></textarea>
+
+                <label>Nội dung</label>
+                <textarea id="txt-content" rows="8" placeholder="Nội dung chi tiết của bài viết"></textarea>
+
+                <label>Trạng thái</label>
+                <select id="sl-status">
+                    <option value="published">Đã đăng</option>
+                    <option value="draft">Bản nháp</option>
+                </select>
+
+                <div class="form-actions">
+                    <button id="btn-save">Đăng bài</button>
+                    <button id="btn-cancel" class="btn-grey" style="display: none;">Hủy sửa</button>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- DANH SÁCH BÀI VIẾT -->
+            <div class="table-box" id="list-box">
+                <h2>Quản lý bài viết</h2>
+
+                <input type="text" id="search" placeholder="Tìm bài viết...">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tiêu đề</th>
+                            <th>Danh mục</th>
+                            <th>Tác giả</th>
+                            <th>Ngày đăng</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="articles">
+                        <tr>
+                            <td colspan="6">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
         </div>
-
     </div>
 
+    <script src="./admin.js"></script>
 </body>
-<script src="/FrontEnd/admin.js"></script>
+
 </html>

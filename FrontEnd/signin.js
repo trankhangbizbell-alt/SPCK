@@ -1,28 +1,33 @@
 const btnLogin = document.getElementById("btn-login");
 
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        currentUser = user;
-        alert("User is signed in: " + user.email);
-        window.location.href = "./index.html"; // Redirect to home page or dashboard
-    } 
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault(); // Ngăn form submit lại trang
+
+  const email = document.getElementById("txt-email").value.trim();
+  const password = document.getElementById("txt-password").value.trim();
+  const remember = document.getElementById("chk-remember").checked;
+
+  if (email === "" || password === "") {
+    alert("Vui lòng nhập đầy đủ email và mật khẩu!");
+    return;
+  }
+
+  // Ghi nhớ đăng nhập: LOCAL giữ lại sau khi đóng trình duyệt, SESSION thì không
+  const persistence = remember
+    ? firebase.auth.Auth.Persistence.LOCAL
+    : firebase.auth.Auth.Persistence.SESSION;
+
+  auth
+    .setPersistence(persistence)
+    .then(function () {
+      return auth.signInWithEmailAndPassword(email, password);
+    })
+    .then(function () {
+      alert("Đăng nhập thành công!");
+      window.location.href = "./index.html";
+    })
+    .catch(function (error) {
+      console.error("Lỗi đăng nhập:", error);
+      alert("Đăng nhập thất bại: sai email hoặc mật khẩu.");
+    });
 });
-
-btnLogin.addEventListener("click", async (e) => {
-    e.preventDefault(); //Ngăn cho form submit lại trang
-    const email = document.getElementById("txt-email").value.trim();
-    const password = document.getElementById("txt-password").value.trim();
-
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            // Signed in
-            var user = userCredential.user;
-            alert("Login successful! Welcome back.");
-            // Optionally, redirect to home page or dashboard
-            window.location.href = "./index.html"; // Change this to your desired page
-        })
-        .catch((error) => {
-            console.error("Error logging in:", error);
-            alert("Error logging in. Please check your email and password.");
-        });
-})

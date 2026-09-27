@@ -1,56 +1,50 @@
-const btnSignUp = document.getElementById("registerBtn");
+const btnRegister = document.getElementById("btn-register");
 
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        currentUser = user;
-        alert("User is signed in: " + user.email);
-        window.location.href = "./index.html"; // Redirect to home page or dashboard
-    } 
-});
+btnRegister.addEventListener("click", function (e) {
+  e.preventDefault(); // Ngăn form submit lại trang
 
-btnSignUp.addEventListener("click", async (e) => {
-  e.preventDefault(); //Ngăn cho form submit lại trang
+  // Lấy dữ liệu từ form
+  const name = document.getElementById("txt-name").value.trim();
+  const email = document.getElementById("txt-email").value.trim();
+  const password = document.getElementById("txt-password").value.trim();
+  const confirmPassword = document.getElementById("txt-confirm-password").value.trim();
 
-  //Lấy dữ liệu từ form
-  const email = document.getElementById("txt-email").value;
-  const password = document.getElementById("txt-password").value;
-  const confirmPassword = document.getElementById("txt-confirm-password").value;
-
-  if (password !== confirmPassword) {
-    alert("Passwords do not match!");
+  // Kiểm tra dữ liệu
+  if (name === "" || email === "" || password === "") {
+    alert("Vui lòng nhập đầy đủ thông tin!");
     return;
   }
 
   if (password.length < 6) {
-    alert("Password must be at least 6 characters long!");
+    alert("Mật khẩu phải có ít nhất 6 ký tự!");
     return;
   }
 
-  //Kiểm tra email đã tồn tại chưa
-  firebase.auth().fetchSignInMethodsForEmail(email)
-    .then((methods) => {
-      if (methods.length > 0) {
-        alert("Email already exists. Please use a different email.");
-        return;
-      }
-    })
-    .catch((error) => {
-      console.error("Error checking email:", error);
-      alert("Error checking email. Please try again.");
-    });
+  if (password !== confirmPassword) {
+    alert("Mật khẩu nhập lại không khớp!");
+    return;
+  }
 
-  firebase
-    .auth()
+  // Tạo tài khoản trên Firebase
+  auth
     .createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      alert("Sign up successful! You can now log in.");
-      // Optionally, redirect to login page or home page
-      window.location.href = "./FrontEnd/signin.html";
+    .then(function (userCredential) {
+      // Lưu tên hiển thị để dùng làm tên tác giả khi đăng bài
+      return userCredential.user.updateProfile({ displayName: name });
     })
-    .catch((error) => {
-      console.error("Error signing up:", error);
-      alert("Error signing up. Please try again.");
+    .then(function () {
+      alert("Đăng ký thành công! Chào mừng " + name);
+      window.location.href = "./index.html";
+    })
+    .catch(function (error) {
+      console.error("Lỗi đăng ký:", error);
+
+      if (error.code === "auth/email-already-in-use") {
+        alert("Email này đã được sử dụng. Vui lòng dùng email khác.");
+      } else if (error.code === "auth/invalid-email") {
+        alert("Email không hợp lệ.");
+      } else {
+        alert("Đăng ký thất bại. Vui lòng thử lại.");
+      }
     });
 });
