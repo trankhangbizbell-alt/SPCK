@@ -1,23 +1,14 @@
 // ====== CẤU HÌNH FIREBASE ======
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBuzf07XzJeDPNQ3J3ujd6aDISsl8Ewp9o",
-//   authDomain: "news-fbabd.firebaseapp.com",
-//   projectId: "news-fbabd",
-//   storageBucket: "news-fbabd.firebasestorage.app",
-//   messagingSenderId: "629916229666",
-//   appId: "1:629916229666:web:168bb21e4e5ec752c32a7b",
-//   measurementId: "G-NW8N33K49Z",
-// };
-
-const firebaseConfig = {
-  apiKey: "AIzaSyB07tYy7QK_iPX0U1yha_4cINi0HNq8wt0",
-  authDomain: "jsi-cp2-365cf.firebaseapp.com",
-  projectId: "jsi-cp2-365cf",
-  storageBucket: "jsi-cp2-365cf.firebasestorage.app",
-  messagingSenderId: "243430112289",
-  appId: "1:243430112289:web:f9d12ac5b054f39afcb760",
-  measurementId: "G-9D5TN7SZVZ"
+const firebaseConfig = { 
+  apiKey : "AIzaSyBuzf07XzJeDPNQ3J3ujd6aDISsl8Ewp9o" , 
+  authDomain : "news-fbabd.firebaseapp.com" , 
+  projectId : "news-fbabd" , 
+  storageBucket : "news-fbabd.firebasestorage.app" , 
+  messagingSenderId : "629916229666" , 
+  appId : "1:629916229666:web:168bb21e4e5ec752c32a7b" , 
+  measurementId : "G-NW8N33K49Z" 
 };
+
 
 // Khởi tạo Firebase (chỉ khởi tạo 1 lần)
 if (!firebase.apps.length) {
